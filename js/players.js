@@ -1,7 +1,7 @@
 // Giocatori: l'id è il nome del file in img/ (senza .png)
 const PLAYER_IDS = [
   "Peppe_Troise",
-  "Checco_LaBarbera",
+  "Francesco_La_Barbera",
   "Claudia_Ottaviano",
   "Emanuele_Ferrante",
   "Guido_Coppola",

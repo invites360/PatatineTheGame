@@ -158,7 +158,7 @@ const COSTUMES = {
   },
 
   // Dipendente comunale: camicia azzurrina, cravatta allentata, caffè, cartello e Zzz
-  Checco_LaBarbera: () => {
+  Francesco_La_Barbera: () => {
     const SH = "#BFD9F2", GY = "#6B6F76";
     return {
       cls: "clerk",

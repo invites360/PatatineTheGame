@@ -73,6 +73,42 @@ function confirmModal(title, text, okLabel = "Conferma") {
   });
 }
 
+// ---------------------------------------------------------- INSTALLA APP
+const isStandalone = () => window.matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+let installEvt = null;
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  installEvt = e;
+  if (state.view === "home") render();
+});
+window.addEventListener("appinstalled", () => { installEvt = null; LS.set("gp_install_hide", true); toast("App installata! 🥔"); if (state.view === "home") render(); });
+
+function installBanner() {
+  if (isStandalone() || LS.get("gp_install_hide")) return "";
+  if (installEvt) {
+    return `<div class="install"><span class="ico">📲</span><span class="tx"><b>Installa l'app</b>Gioca a schermo intero dalla home del telefono.</span>
+      <button class="btn small yellow" data-install>Installa</button><button class="x" data-install-hide aria-label="Chiudi">✕</button></div>`;
+  }
+  if (isIOS()) {
+    return `<div class="install"><span class="ico">📲</span><span class="tx"><b>Mettila nella Home</b>Tocca <span class="share">⬆︎</span> Condividi e poi “Aggiungi alla schermata Home”.</span>
+      <button class="x" data-install-hide aria-label="Chiudi">✕</button></div>`;
+  }
+  return "";
+}
+function bindInstall() {
+  const b = $app.querySelector("[data-install]");
+  if (b) b.onclick = async () => {
+    if (!installEvt) return;
+    installEvt.prompt();
+    await installEvt.userChoice.catch(() => null);
+    installEvt = null;
+    render();
+  };
+  const x = $app.querySelector("[data-install-hide]");
+  if (x) x.onclick = () => { LS.set("gp_install_hide", true); render(); };
+}
+
 // ---------------------------------------------------------- MUSICA
 function setMusic(on) {
   state.musicOn = on;
@@ -300,11 +336,13 @@ function renderHome() {
   return `
     <h2 class="title">Ciao ${esc(P(state.me).short)}! 👋</h2>
     <p class="subtitle">Tocca un volto, assaggia le sue patatine e dai i voti.</p>
+    ${installBanner()}
     <div class="progress-strip"><div class="progress"><div style="width:${pct}%"></div></div><b>${done}/${opp.length}</b></div>
     ${Store.mode === "local" ? `<p class="note" style="margin-bottom:14px">Modalità locale: i voti restano su questo telefono. Configura Supabase in <b>js/config.js</b> per giocare insieme.</p>` : ""}
     <div class="grid">${cards}</div>`;
 }
 function bindHome() {
+  bindInstall();
   $app.querySelectorAll("[data-target]").forEach((b) => (b.onclick = () => {
     const t = b.dataset.target;
     if (t === state.me) { toast("Non puoi votare le tue patatine 😏"); return; }

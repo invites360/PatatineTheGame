@@ -56,13 +56,19 @@ const Store = (() => {
 
   // ---------------------------------------------------------- LOCALE
   const KEY = "gp_local_db_v1";
-  const PWD = "Patatine4ever"; // solo modalità locale di prova
+  // solo modalità locale di prova: impronta SHA-256 della password admin (la password non è nel codice)
+  const PWD_HASH = "b03c12f684d8e3358b582e395c010f13c9bc8357eb73aa22b6ad452fd865b2a5";
+  const sha256 = async (s) => {
+    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(String(s ?? "")));
+    return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+  };
+  const isAdmin = async (pwd) => (await sha256(pwd)) === PWD_HASH;
   const read = () => {
     try { return JSON.parse(localStorage.getItem(KEY)) || null; } catch { return null; }
   };
   const db = () => read() || { chips: {}, votes: [], bonus: {}, reveal: false };
   const write = (d) => { try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) { alert("Spazio locale pieno: immagine troppo grande?"); } emit(); };
-  const check = (pwd) => { if (pwd !== PWD) throw new Error("Password admin errata"); };
+  const check = async (pwd) => { if (!(await isAdmin(pwd))) throw new Error("Password admin errata"); };
   window.addEventListener("storage", (e) => { if (e.key === KEY) emit(); });
 
   return {
@@ -89,14 +95,14 @@ const Store = (() => {
       if (d.reveal) throw new Error("I bonus sono già stati rivelati");
       d.bonus[voter] = target; write(d);
     },
-    async adminCheck(pwd) { return pwd === PWD; },
+    async adminCheck(pwd) { return isAdmin(pwd); },
     async adminSetChip(pwd, player, name, image) {
-      check(pwd); const d = db();
+      await check(pwd); const d = db();
       d.chips[player] = { player_id: player, name, image }; write(d);
     },
-    async adminSetReveal(pwd, reveal) { check(pwd); const d = db(); d.reveal = reveal; write(d); },
+    async adminSetReveal(pwd, reveal) { await check(pwd); const d = db(); d.reveal = reveal; write(d); },
     async adminReset(pwd, what) {
-      check(pwd); const d = db();
+      await check(pwd); const d = db();
       if (what === "votes" || what === "all") d.votes = [];
       if (what === "bonus" || what === "all") { d.bonus = {}; d.reveal = false; }
       if (what === "all") d.chips = {};

@@ -4,7 +4,7 @@
 //  - Supabase (voti, bonus, admin): MAI in cache, sempre dal vivo
 //  Quando pubblichi modifiche importanti, alza VERSION.
 // =============================================================
-const VERSION = "gp-v1";
+const VERSION = "gp-v2";
 const SHELL = [
   "./",
   "index.html",
@@ -19,7 +19,7 @@ const SHELL = [
   "img/icons/icon-192.png",
   "img/icons/apple-touch-icon.png",
   "img/faces/Peppe_Troise.png",
-  "img/faces/Checco_LaBarbera.png",
+  "img/faces/Francesco_La_Barbera.png",
   "img/faces/Claudia_Ottaviano.png",
   "img/faces/Emanuele_Ferrante.png",
   "img/faces/Guido_Coppola.png",
