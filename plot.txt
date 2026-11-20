@@ -1,0 +1,60 @@
+PARTE 1
+Dobbiamo sviluppare un gioco web che pubblicherò su git pages.
+
+Quindi solo html, js e css semplici. No Server.
+
+Il Gioco è una gara di patatine. Ogni giocatore porta un pacco di patatine. Si assaggeranno e saranno votate
+
+Sarà giocato esclusivamente da telefono
+
+I giocatori sono i volti in img. I nomi dei giocatori sono proprio i nomi dei file.
+
+Appena si accede, bisognerà scegliere il proprio personaggio, In questo modo:
+
+Dei pupazzetti animati con i volti in img. Ad esempio, al centro grande compare Peppe_Troise, sulla destra e sulla sinistra
+è possibile scorrere gli altri personaggi. In questa schermata c'è la musichetta sotto che trovi in cartella audio
+
+PS: Ritaglia bene i volti dai png che hai.
+
+Una volta entrati si ha a disposizione la griglia con i volti dei partecipanti. Fai tutti sfondi dell'
+applicativo a tema patatine e salse old paso.
+
+Cliccando sul giocatore si votano le seguenti categorie delle patatine, con voti da 1 a 10
+
+- Crunch Factor
+- Gusto
+- Una tira l’altra
+- Effetto wow (Reazione al primo morso)
+- Formato
+- Packaging
+- Prezzo
+- Party chips (quanto è da festa).
+
+Presumo sia necessario un collegamento a supabase per mantenere le info condivise, corretto?
+
+Aggiungi delle schermate fighe di: 
+- sintesi dei voti, chi ha votato cosa e quanto
+- statistiche fighe sulle votazioni
+- gestione admin: possibilità di inserire il nome (ed eventualmente un'immagine) delle patatine che ogni 
+giocatore ha portato
+- assegnazione Bonus PATATINA PREFERITA: alla fine del gioco ogni giocatore, in maniera segreta, 
+potrà assegnare un bonus di 10 punti alla sua patatina preferita in maniera generica. Questa 
+assegnazione non sarà rivelata agli altri finchè l'admin non lo consente. La pagina dell'admin sarà 
+protetta da password. La password sarà "Patatine4ever".
+
+Linee guida generali:
+dai molta enfasi ai volti, utilizzali molto che è simpatico
+Colori sul giallo-aranciato-rosso
+
+PARTE 2
+Per i pupazzetti della scelta personaggio, disegniamo cose più specifiche:
+- Peppe Troise: Un' armatura di ironman
+- Martina Murat: un'infermiera
+- Emanuele Ferrante: Un camice e attrezzatura da gastroenterologo
+- Guido Coppola: Camice e attrezzatura da cardiologo
+- Marianna Meta: Maestra
+- Claudia Ottaviano: Donna in palestra
+- Francesco La Barbera: Dipendente comunale con camicia azzurrina senza voglia di fare nulla
+- Yoel Soimer: Maglia dell'argentina
+
+
